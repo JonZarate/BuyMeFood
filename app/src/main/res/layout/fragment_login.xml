@@ -1,0 +1,68 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jonzarate.buymefood.login.LoginFragment">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toTopOf="@+id/login_nick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_progressbar"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/robe" />
+
+    <EditText
+        android:id="@+id/login_nick"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Nick"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:imeOptions="actionNext"
+        app:layout_constraintBottom_toTopOf="@+id/login_pass"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/login_pass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Pass"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:imeOptions="actionDone"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/login_nick" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Log in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@id/login_pass" />
+
+    <ProgressBar
+        android:id="@+id/login_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="true"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
