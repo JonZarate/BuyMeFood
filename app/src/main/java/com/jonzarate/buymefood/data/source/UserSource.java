@@ -1,5 +1,6 @@
 package com.jonzarate.buymefood.data.source;
 
+import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.data.model.User;
 
 /**
@@ -11,5 +12,9 @@ import com.jonzarate.buymefood.data.model.User;
 public interface UserSource {
 
     User login(String nick, String password);
+
+    Group getGroup(String nick);
+
+    void joinGroup(String groupId, String nick);
 
 }

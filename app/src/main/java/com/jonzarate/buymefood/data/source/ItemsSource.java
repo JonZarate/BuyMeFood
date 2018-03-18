@@ -1,5 +1,7 @@
 package com.jonzarate.buymefood.data.source;
 
+import com.jonzarate.buymefood.data.model.Group;
+import com.jonzarate.buymefood.data.model.GroupItems;
 import com.jonzarate.buymefood.data.model.Item;
 
 import java.util.List;
@@ -10,6 +12,6 @@ import java.util.List;
 
 public interface ItemsSource {
 
-    List<Item> getItems();
+    GroupItems getItems(Group group);
 
 }

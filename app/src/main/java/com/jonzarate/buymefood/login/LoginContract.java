@@ -2,6 +2,7 @@ package com.jonzarate.buymefood.login;
 
 import com.jonzarate.buymefood.BasePresenter;
 import com.jonzarate.buymefood.BaseView;
+import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.data.model.User;
 
 /**
@@ -13,11 +14,13 @@ public interface LoginContract {
     interface Presenter extends BasePresenter {
 
         void onLoginClicked(String nick, String pass);
+
+        void onJoinClicked(String groupId);
     }
 
     interface View extends BaseView<Presenter> {
 
-        void openItemList(User user);
+        void openItemList(Group group);
 
         void erasePassword();
 
@@ -26,6 +29,20 @@ public interface LoginContract {
         void hideLoading();
 
         void hideKeyboard();
+
+        void disableLoginButton();
+
+        void enableLoginButton();
+
+        void showWrongCredentialsError();
+
+        void showGroupDialog();
+
+        void dismissGroupDialog();
+
+        void enableJoinButton();
+
+        void disableJoinButton();
 
     }
 

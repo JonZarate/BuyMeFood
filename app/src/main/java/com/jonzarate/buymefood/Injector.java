@@ -31,7 +31,7 @@ public class Injector {
         return mUserSource;
     }
 
-    public static FirebaseFirestore getFirebaseFirestore() {
+    private static FirebaseFirestore getFirebaseFirestore() {
         return FirebaseFirestore.getInstance();
     }
 

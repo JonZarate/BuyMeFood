@@ -4,6 +4,7 @@ package com.jonzarate.buymefood.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jonzarate.buymefood.R;
+import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.data.model.User;
 import com.jonzarate.buymefood.itemlist.ItemListActivity;
 import com.jonzarate.buymefood.utils.ActivityUtils;
+import com.jonzarate.buymefood.utils.AnimationUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +33,9 @@ import butterknife.OnClick;
 public class LoginFragment extends Fragment implements LoginContract.View {
 
     private LoginContract.Presenter mPresenter;
+
+    @BindView(R.id.login_layout)
+    ConstraintLayout mLayout;
 
     @BindView(R.id.login_progressbar)
     ProgressBar mProgress;
@@ -54,7 +61,6 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setRetainInstance(true);
     }
 
@@ -63,16 +69,13 @@ public class LoginFragment extends Fragment implements LoginContract.View {
                              Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_login, container, false);
-
         ButterKnife.bind(this, root);
-
         return root;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         mPresenter.start();
     }
 
@@ -89,9 +92,9 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     }
 
     @Override
-    public void openItemList(User user) {
+    public void openItemList(Group group) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ItemListActivity.EXTRA_USER, user);
+        bundle.putSerializable(ItemListActivity.EXTRA_GROUP, group);
 
         Intent intent = new Intent(getContext(), ItemListActivity.class);
         intent.putExtras(bundle);
@@ -107,16 +110,55 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
     @Override
     public void showLoading() {
-        mProgress.setVisibility(View.VISIBLE);
+        setLoadingVisibilityAnimation(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-        mProgress.setVisibility(View.GONE);
+        setLoadingVisibilityAnimation(View.GONE);
+    }
+
+    private void setLoadingVisibilityAnimation(int visibility){
+        AnimationUtils.setViewVisibility(mLayout, R.id.login_progressbar, visibility);
     }
 
     @Override
     public void hideKeyboard() {
         ActivityUtils.hideKeyboard(getContext(), getActivity().getCurrentFocus());
+    }
+
+    @Override
+    public void disableLoginButton() {
+        mButton.setEnabled(false);
+    }
+
+    @Override
+    public void enableLoginButton() {
+        mButton.setEnabled(true);
+    }
+
+    @Override
+    public void showWrongCredentialsError() {
+        Toast.makeText(getContext(), "Wrong credentials", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showGroupDialog() {
+
+    }
+
+    @Override
+    public void dismissGroupDialog() {
+
+    }
+
+    @Override
+    public void enableJoinButton() {
+
+    }
+
+    @Override
+    public void disableJoinButton() {
+
     }
 }

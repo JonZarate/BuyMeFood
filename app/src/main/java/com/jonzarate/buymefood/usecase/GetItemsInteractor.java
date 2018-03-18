@@ -1,6 +1,8 @@
 package com.jonzarate.buymefood.usecase;
 
 import com.jonzarate.buymefood.BaseInteractor;
+import com.jonzarate.buymefood.data.model.Group;
+import com.jonzarate.buymefood.data.model.GroupItems;
 import com.jonzarate.buymefood.data.model.Item;
 import com.jonzarate.buymefood.data.source.ItemsSource;
 
@@ -13,29 +15,31 @@ import java.util.List;
 public class GetItemsInteractor extends BaseInteractor {
 
     public interface Callback {
-        void onItemsDownloaded(List<Item> items);
+        void onItemsDownloaded(GroupItems groupItems);
         void onItemsNotDownloaded();
     }
 
     private Callback mCallback;
     private ItemsSource mSource;
-    private List<Item> mItems;
+    private Group mGroup;
+    private GroupItems mGroupItems;
 
-    public GetItemsInteractor(Callback callback, ItemsSource source) {
+    public GetItemsInteractor(Callback callback, ItemsSource source, Group group) {
         mCallback = callback;
         mSource = source;
+        mGroup = group;
     }
 
 
     @Override
     protected void executeWorkerThread() {
-        mItems = mSource.getItems();
+        mGroupItems = mSource.getItems(mGroup);
     }
 
     @Override
     protected void executeMainThread() {
-        if (mItems != null) {
-            mCallback.onItemsDownloaded(mItems);
+        if (mGroupItems != null) {
+            mCallback.onItemsDownloaded(mGroupItems);
         } else {
             mCallback.onItemsNotDownloaded();
         }

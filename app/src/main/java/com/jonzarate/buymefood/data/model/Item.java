@@ -1,10 +1,12 @@
 package com.jonzarate.buymefood.data.model;
 
+import java.io.Serializable;
+
 /**
  * Created by JonZarate on 26/02/2018.
  */
 
-public class Item {
+public class Item extends BaseModel implements Serializable {
 
     public static String FIRESTORE_COLLECTION = "items";
 
@@ -12,7 +14,7 @@ public class Item {
     private int amount;
     private float price;
     private String product;
-    private String reporter;
+    private String poster;
 
     public Item ( ) {
     }
@@ -33,8 +35,12 @@ public class Item {
         return product;
     }
 
-    public String getReporter() {
-        return reporter;
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public String getPoster() {
+        return poster;
     }
 
     public void setActive(boolean active) {

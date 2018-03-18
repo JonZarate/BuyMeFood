@@ -2,6 +2,8 @@ package com.jonzarate.buymefood.itemlist;
 
 import com.jonzarate.buymefood.BasePresenter;
 import com.jonzarate.buymefood.BaseView;
+import com.jonzarate.buymefood.data.model.Group;
+import com.jonzarate.buymefood.data.model.GroupItems;
 import com.jonzarate.buymefood.data.model.Item;
 
 import java.util.List;
@@ -20,7 +22,9 @@ public interface ItemListContract {
 
     interface View extends BaseView<ItemListContract.Presenter> {
 
-        void setItems(List<Item> items);
+        void setGroup(GroupItems groupItems );
+
+        void notifyGroupItemsSet();
 
         void showRefreshing();
 

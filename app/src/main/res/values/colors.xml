@@ -9,4 +9,5 @@
     <color name="secondaryLightColor">#5df2d6</color>
     <color name="secondaryDarkColor">#008e76</color>
     <color name="secondaryTextColor">#000000</color>
+    <color name="itemPosterBackground">#e0e0e0</color>
 </resources>

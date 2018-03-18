@@ -1,20 +1,28 @@
 package com.jonzarate.buymefood.data.model;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by JonZarate on 08/03/2018.
  */
 
-public class Group {
+public class Group extends BaseModel implements Serializable {
 
     public static String FIRESTORE_COLLECTION = "groups";
 
-    private User[] users;
-
-    public User[] getUsers() {
-        return users;
+    public interface Field {
+        String NICKS = "nicks";
     }
 
-    public void setUsers(User[] users) {
-        this.users = users;
+    private Map<String, Boolean> nicks;
+
+    public Map<String, Boolean> getNicks() {
+        return nicks;
+    }
+
+    public void setNicks(Map<String, Boolean> nicks) {
+        this.nicks = nicks;
     }
 }

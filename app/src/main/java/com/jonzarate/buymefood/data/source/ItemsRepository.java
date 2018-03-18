@@ -1,13 +1,18 @@
 package com.jonzarate.buymefood.data.source;
 
 import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.jonzarate.buymefood.data.model.Group;
+import com.jonzarate.buymefood.data.model.GroupItems;
 import com.jonzarate.buymefood.data.model.Item;
+import com.jonzarate.buymefood.data.model.UserItems;
+import com.jonzarate.buymefood.utils.FirestoreUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by JonZarate on 26/02/2018.
@@ -22,7 +27,7 @@ public class ItemsRepository implements ItemsSource {
     }
 
     @Override
-    public List<Item> getItems() {
+    public GroupItems getItems(Group group) {
 
         QuerySnapshot query = null;
         try {
@@ -31,16 +36,30 @@ public class ItemsRepository implements ItemsSource {
             ignore.printStackTrace();
         }
 
-        ArrayList<Item> items = new ArrayList<>();
-
         if (query != null) {
-            List<DocumentSnapshot> snapshots = query.getDocuments();
+            List<Item> items = FirestoreUtils.toObjects(query, Item.class);
+            List<UserItems> userItemsList = new ArrayList<>();
 
-            for (DocumentSnapshot document : snapshots) {
-                items.add(document.toObject(Item.class));
+            Map<String, List<Item>> map = new HashMap<>();
+            for (Item item : items) {
+                List<Item> list;
+                if (map.containsKey(item.getPoster())){
+                    list = map.get(item.getPoster());
+                } else {
+                    list = new ArrayList<>();
+                    map.put(item.getPoster(), list);
+                }
+                list.add(item);
             }
+
+            for (String key : map.keySet()) {
+                userItemsList.add(new UserItems(key, map.get(key)));
+            }
+
+            GroupItems groupItems = new GroupItems(userItemsList);
+            return groupItems;
         }
 
-        return items;
+        return null;
     }
 }

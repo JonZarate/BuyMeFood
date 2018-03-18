@@ -12,8 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jonzarate.buymefood.BasePresenter;
 import com.jonzarate.buymefood.R;
+import com.jonzarate.buymefood.data.model.Group;
+import com.jonzarate.buymefood.data.model.GroupItems;
 import com.jonzarate.buymefood.data.model.Item;
 
 import java.util.List;
@@ -85,8 +86,12 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
     }
 
     @Override
-    public void setItems(List<Item> items) {
-        mAdapter.setItems(items);
+    public void setGroup(GroupItems groupItems) {
+        mAdapter.setGroup(groupItems);
+    }
+
+    @Override
+    public void notifyGroupItemsSet() {
         mAdapter.notifyDataSetChanged();
     }
 
