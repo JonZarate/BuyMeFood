@@ -1,6 +1,7 @@
 package com.jonzarate.buymefood.itemlist;
 
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.jonzarate.buymefood.R;
-import com.jonzarate.buymefood.data.model.GroupItems;
+import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.data.model.Item;
-import com.jonzarate.buymefood.data.model.UserItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +30,28 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int TYPE_ITEM = 1;
 
     private Resources mResources;
-    private GroupItems mGroupItems;
+    private Group mGroup;
     private List<Object> mList;
 
     public ItemListAdapter (Resources resources) {
         mResources = resources;
     }
 
-    public void setGroup(GroupItems group) {
-        mGroupItems = group;
+    public void setGroup(Group group) {
+        mGroup = group;
         mList = new ArrayList<>();
 
-        for (UserItems userItems : mGroupItems.getUserItems()){
-            mList.add(userItems.getUser());
-            mList.addAll(userItems.getItems());
+        for (String nick : mGroup.getNicks().keySet()){
+            if (mGroup.getItems().containsKey(nick)) {
+                mList.add(mGroup.getNicks().get(nick));
+                mList.addAll(mGroup.getItems().get(nick));
+            }
+        }
+
+        List<Item> sharedItems = mGroup.getSharedItems();
+        if (sharedItems != null && sharedItems.size() > 0) {
+            mList.add(mResources.getString(R.string.header_shared_items));
+            mList.addAll(sharedItems);
         }
     }
 
@@ -89,19 +97,30 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         holder.nick.setText(nick);
     }
 
-    private void bindItem(ItemViewHolder holder, final Item item){
-        holder.active.setChecked(item.isActive());
-        holder.amount.setText(
-                String.format(mResources.getString(R.string.placeholder_amount), item.getAmount()));
+    private void bindItem(final ItemViewHolder holder, final Item item){
+        setCheckBox(holder.completed, holder.product, item.isChecked());
+        holder.amount.setText(String.format(mResources.getString(R.string.placeholder_amount), item.getAmount()));
         holder.product.setText(item.getProduct());
-        holder.user.setText(item.getPoster());
+        holder.notes.setText(item.getNotes());
 
-        holder.active.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                item.setActive(isChecked);
+                item.setChecked(isChecked);
+                setCheckBox(holder.completed, holder.product, isChecked);
             }
         });
+    }
+
+    private void setCheckBox(CheckBox checkBox, TextView text, boolean isChecked){
+        checkBox.setChecked(isChecked);
+        if (isChecked) {
+            text.setPaintFlags(
+                    text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            text.setPaintFlags(
+                    text.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+        }
     }
 
     @Override
@@ -122,8 +141,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.active)
-        CheckBox active;
+        @BindView(R.id.completed)
+        CheckBox completed;
 
         @BindView(R.id.amount)
         TextView amount;
@@ -131,8 +150,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.product)
         TextView product;
 
-        @BindView(R.id.user)
-        TextView user;
+        @BindView(R.id.notes)
+        TextView notes;
 
         ItemViewHolder(View itemView) {
             super(itemView);

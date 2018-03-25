@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.jonzarate.buymefood.R;
 import com.jonzarate.buymefood.data.model.Group;
-import com.jonzarate.buymefood.data.model.User;
 import com.jonzarate.buymefood.utils.ActivityUtils;
 
 public class ItemListActivity extends AppCompatActivity {

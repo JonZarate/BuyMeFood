@@ -1,7 +1,7 @@
 package com.jonzarate.buymefood.usecase;
 
 import com.jonzarate.buymefood.BaseInteractor;
-import com.jonzarate.buymefood.data.model.User;
+import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.data.source.UserSource;
 
 /**
@@ -11,14 +11,14 @@ import com.jonzarate.buymefood.data.source.UserSource;
 public class LoginInteractor extends BaseInteractor {
 
     public interface Callback {
-        void onLoginSuccessful(User user);
+        void onLoginSuccessful(Group group);
         void onLoginFailed();
     }
 
     private Callback mCallback;
     private UserSource mSource;
     private String mNick, mPass;
-    private User mUser;
+    private Group mGroup;
 
     public LoginInteractor (Callback callback, UserSource source, String nick, String pass){
         mCallback = callback;
@@ -29,13 +29,13 @@ public class LoginInteractor extends BaseInteractor {
 
     @Override
     protected void executeWorkerThread() {
-        mUser = mSource.login(mNick, mPass);
+        mGroup = mSource.login(mNick, mPass);
     }
 
     @Override
     protected void executeMainThread() {
-        if (mUser != null){
-            mCallback.onLoginSuccessful(mUser);
+        if (mGroup != null){
+            mCallback.onLoginSuccessful(mGroup);
         } else {
             mCallback.onLoginFailed();
         }

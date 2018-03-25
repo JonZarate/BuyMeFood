@@ -14,10 +14,6 @@ import android.view.ViewGroup;
 
 import com.jonzarate.buymefood.R;
 import com.jonzarate.buymefood.data.model.Group;
-import com.jonzarate.buymefood.data.model.GroupItems;
-import com.jonzarate.buymefood.data.model.Item;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,8 +82,8 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
     }
 
     @Override
-    public void setGroup(GroupItems groupItems) {
-        mAdapter.setGroup(groupItems);
+    public void setGroup(Group group) {
+        mAdapter.setGroup(group);
     }
 
     @Override

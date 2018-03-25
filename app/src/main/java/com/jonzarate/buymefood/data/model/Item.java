@@ -1,6 +1,7 @@
 package com.jonzarate.buymefood.data.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by JonZarate on 26/02/2018.
@@ -8,42 +9,70 @@ import java.io.Serializable;
 
 public class Item extends BaseModel implements Serializable {
 
-    public static String FIRESTORE_COLLECTION = "items";
+    public interface Field {
+        String AMOUNT = "amount";
+        String PRODUCT = "product";
+        String NOTES = "notes";
+        String DATE_POSTED = "datePosted";
+        String DATE_BOUGHT = "dateBought";
+    }
 
-    private boolean active;
+
+    private boolean checked;
     private int amount;
-    private float price;
     private String product;
-    private String poster;
+    private String notes;
+    private Date datePosted;
+    private Date dateBought;
 
     public Item ( ) {
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public int getAmount() {
         return amount;
     }
 
-    public float getPrice() {
-        return price;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getProduct() {
         return product;
     }
 
-    public void setPoster(String poster) {
-        this.poster = poster;
+    public void setProduct(String product) {
+        this.product = product;
     }
 
-    public String getPoster() {
-        return poster;
+    public String getNotes() {
+        return notes;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public Date getDatePosted() {
+        return datePosted;
+    }
+
+    public void setDatePosted(Date datePosted) {
+        this.datePosted = datePosted;
+    }
+
+    public Date getDateBought() {
+        return dateBought;
+    }
+
+    public void setDateBought(Date dateBought) {
+        this.dateBought = dateBought;
     }
 }

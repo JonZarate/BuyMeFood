@@ -32,11 +32,17 @@ I started this project in order to develop the following skills:
 * ConstrainLayout
 
 
-# Database scheme
+## Database scheme
 
 
 
-## Tools/Libraries
+## Firestore limitations
+
+* Operand `or` not supported by Firestore yet 
+* Cannot query list contents, only map values
+* Cannot nest lists
+
+## Tools / Libraries
 
 * [Firebase Firestore](https://firebase.google.com/docs/firestore/)
 * [ButterKnife](https://github.com/JakeWharton/butterknife)

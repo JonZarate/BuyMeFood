@@ -28,7 +28,7 @@ public class GetGroupInteractor extends BaseInteractor {
 
     @Override
     protected void executeWorkerThread() {
-        mGroup = mSource.getGroup(mNick);
+        //mGroup = mSource.getGroup(mNick);
     }
 
     @Override

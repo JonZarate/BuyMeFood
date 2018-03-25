@@ -3,7 +3,6 @@ package com.jonzarate.buymefood.login;
 import com.jonzarate.buymefood.BasePresenter;
 import com.jonzarate.buymefood.BaseView;
 import com.jonzarate.buymefood.data.model.Group;
-import com.jonzarate.buymefood.data.model.User;
 
 /**
  * Created by JonZarate on 11/03/2018.

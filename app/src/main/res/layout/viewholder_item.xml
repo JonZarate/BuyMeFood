@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <CheckBox
-        android:id="@+id/active"
+        android:id="@+id/completed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -22,7 +22,7 @@
         android:text="x24"
         android:textAlignment="textEnd"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/active"
+        app:layout_constraintStart_toEndOf="@+id/completed"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -32,19 +32,17 @@
         android:layout_marginStart="8dp"
         android:text="Kitchen paper"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/amount"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/user"
+        android:id="@+id/notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="kamal"
+        android:text="notes go here"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/product"
+        app:layout_constraintTop_toBottomOf="@+id/product" />
 
 
 </android.support.constraint.ConstraintLayout>
