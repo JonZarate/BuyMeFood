@@ -1,0 +1,80 @@
+{
+  "name": "GO mungo!",
+  "currency": "£",
+  "auths": {
+    "jzarate": "a",
+    "patt": "b",
+    "abbie": "c"
+  },
+  "nicks": {
+    "jzarate": "Jon",
+    "patt": "Pat",
+    "abbie": "Abbie"
+  },
+  "history": {
+    "debts": {
+      "jzarate": {
+        "patt": {
+          "sum": "4.20",
+          "items": [
+            {
+              "amount": 1,
+              "completed": "false",
+              "product": "onions",
+              "notes": "1 kilo",
+              "pricePaid": 4.2,
+              "datePosted": 1521901100,
+              "dateBought": 1521507100
+            }
+          ]
+        }
+      }
+    }
+  },
+  "items": {
+    "jzarate": [
+      {
+        "amount": 1,
+        "product": "coconut milk",
+        "notes": "min 750ml",
+        "datePosted": 1521907100
+      },
+      {
+        "amount": 1,
+        "product": "lettuce",
+        "notes": "200g",
+        "datePosted": 1521947100
+      }
+    ],
+    "patt": [
+      {
+        "amount": 2,
+        "product": "oreo",
+        "notes": "filled with cream",
+        "datePosted": 1521707100
+      },
+      {
+        "amount": 3,
+        "product": "kitkat",
+        "datePosted": 1521847100
+      }
+    ]
+  },
+  "sharedItems": [
+    {
+      "amount": 2,
+      "completed": "false",
+      "product": "kitchen paper",
+      "notes": "double layer",
+      "datePosted": 1522007100
+    },
+    {
+      "amount": 1,
+      "completed": "true",
+      "product": "fairy",
+      "datePosted": 1522007100,
+      "dateBought": 1522009100,
+      "pricePaid": 2.25
+    }
+  ]
+}
