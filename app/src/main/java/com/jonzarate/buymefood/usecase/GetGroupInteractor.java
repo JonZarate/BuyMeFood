@@ -17,18 +17,18 @@ public class GetGroupInteractor extends BaseInteractor {
 
     private Callback mCallback;
     private UserSource mSource;
-    private String mNick;
+    private String mGroupId;
     private Group mGroup;
 
-    public GetGroupInteractor(Callback callback, UserSource userSource, String nick) {
+    public GetGroupInteractor(Callback callback, UserSource userSource, String groupId) {
         mCallback = callback;
         mSource = userSource;
-        mNick = nick;
+        mGroupId = groupId;
     }
 
     @Override
     protected void executeWorkerThread() {
-        //mGroup = mSource.getGroup(mNick);
+        mGroup = mSource.getGroup(mGroupId);
     }
 
     @Override

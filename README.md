@@ -1,4 +1,4 @@
-_(Work in progress)_
+_(Work in progress - check development branch)_
 
 # BuyMeFood 
 
@@ -6,7 +6,7 @@ This App is meant to be used amongst flatmates or couples living together.
 
 The main purpose is to have a shared shopping list, so that they can buy stuff their partners need. 
 
-<img src="/images/screenshots/2018-03-18/login.png" width="256"> <img src="/images/screenshots/2018-03-18/itemlist.png" width="256">
+<img src="/images/screenshots/2018-03-27/login.png" width="256"> <img src="/images/screenshots/2018-03-27/itemlist.png" width="256">
 
 
 
@@ -29,7 +29,7 @@ I started this project in order to develop the following skills:
 * MVP architecture + Interactors
 * Screen rotation through fragment retainment
 * NoSQL (Documents)
-* ConstrainLayout
+* ConstrainLayout and animations
 
 
 ## Database scheme
@@ -38,8 +38,8 @@ I started this project in order to develop the following skills:
 
 ## Firestore limitations
 
-* Operand `or` not supported by Firestore yet 
-* Cannot query list contents, only map values
+* Operand `or` in queries is not supported 
+* List contents cannot be queried, only map values
 * Cannot nest lists
 
 ## Tools / Libraries

@@ -1,12 +1,14 @@
 package com.jonzarate.buymefood.itemlist;
 
+import com.jonzarate.buymefood.Injector;
 import com.jonzarate.buymefood.data.model.Group;
+import com.jonzarate.buymefood.usecase.GetGroupInteractor;
 
 /**
  * Created by JonZarate on 28/02/2018.
  */
 
-public class ItemListPresenter implements ItemListContract.Presenter {
+public class ItemListPresenter implements ItemListContract.Presenter, GetGroupInteractor.Callback {
 
     private ItemListContract.View mView;
     private Group mGroup;
@@ -34,7 +36,7 @@ public class ItemListPresenter implements ItemListContract.Presenter {
 
     @Override
     public void onRefreshed() {
-
+        new GetGroupInteractor(this, Injector.getUserSource(), mGroup.getId()).execute();
     }
 
     private void initializeView () {
@@ -42,4 +44,15 @@ public class ItemListPresenter implements ItemListContract.Presenter {
         mView.notifyGroupItemsSet();
     }
 
+    @Override
+    public void onGetGroupSuccess(Group group) {
+        mGroup = group;
+        initializeView();
+        mView.hideRefreshing();
+    }
+
+    @Override
+    public void onGetGroupFail() {
+        mView.hideRefreshing();
+    }
 }

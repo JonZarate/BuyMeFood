@@ -97,6 +97,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
         Intent intent = new Intent(getContext(), ItemListActivity.class);
         intent.putExtras(bundle);
+        intent.putExtra(ItemListActivity.EXTRA_GROUP_ID, group.getId());
         startActivity(intent);
 
         getActivity().finish();

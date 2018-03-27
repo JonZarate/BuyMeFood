@@ -12,4 +12,6 @@ public interface UserSource {
 
     Group login(String nick, String password);
 
+    Group getGroup(String groupId);
+
 }
