@@ -1,6 +1,7 @@
 package com.jonzarate.buymefood.itemlist;
 
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +62,18 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
         ButterKnife.bind(this, root);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        mRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+
+                if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1) {
+                    float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96,
+                            getContext().getResources().getDisplayMetrics());
+                    outRect.bottom = (int) px;
+                }
+            }
+        });
         mRecycler.setAdapter(mAdapter);
 
         mSwipeLayout.setOnRefreshListener(this);
@@ -71,9 +85,7 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (!mPresenter.isInitialized()) {
-            mPresenter.start();
-        }
+        mPresenter.start();
     }
 
     @Override

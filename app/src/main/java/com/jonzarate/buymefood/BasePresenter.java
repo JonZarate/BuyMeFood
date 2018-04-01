@@ -8,6 +8,5 @@ public interface BasePresenter {
 
     void start();
 
-    boolean isInitialized();
 
 }

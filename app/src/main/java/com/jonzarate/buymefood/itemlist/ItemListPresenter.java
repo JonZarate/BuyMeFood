@@ -30,11 +30,6 @@ public class ItemListPresenter implements ItemListContract.Presenter, GetGroupIn
     }
 
     @Override
-    public boolean isInitialized() {
-        return mIsInitialized;
-    }
-
-    @Override
     public void onRefreshed() {
         new GetGroupInteractor(this, Injector.getUserSource(), mGroup.getId()).execute();
     }

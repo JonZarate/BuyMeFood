@@ -2,12 +2,14 @@ package com.jonzarate.buymefood.itemlist;
 
 import android.content.res.Resources;
 import android.graphics.Paint;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jonzarate.buymefood.R;
@@ -101,7 +103,17 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         setCheckBox(holder.completed, holder.product, item.isChecked());
         holder.amount.setText(String.format(mResources.getString(R.string.placeholder_amount), item.getAmount()));
         holder.product.setText(item.getProduct());
-        holder.notes.setText(item.getNotes());
+
+        if (item.getNotes() != null && item.getNotes().isEmpty()) {
+            holder.notes.setVisibility(View.GONE);
+
+            setProductHolderParams(holder.product, ViewGroup.LayoutParams.MATCH_PARENT);
+        } else {
+            holder.notes.setText(item.getNotes());
+            holder.notes.setVisibility(View.VISIBLE);
+
+           setProductHolderParams(holder.product, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
 
         holder.completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -110,6 +122,13 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 setCheckBox(holder.completed, holder.product, isChecked);
             }
         });
+    }
+
+    private void setProductHolderParams(TextView view, int param) {
+
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.height = param;
+        view.setLayoutParams(params);
     }
 
     private void setCheckBox(CheckBox checkBox, TextView text, boolean isChecked){

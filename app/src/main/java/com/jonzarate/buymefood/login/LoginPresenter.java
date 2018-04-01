@@ -23,11 +23,6 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.
     }
 
     @Override
-    public boolean isInitialized() {
-        return false;
-    }
-
-    @Override
     public void onLoginClicked(String nick, String pass) {
         mView.hideKeyboard();
         mView.showLoading();
