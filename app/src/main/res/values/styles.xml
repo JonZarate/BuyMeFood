@@ -5,14 +5,13 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-
-
         <item name="colorAccent">@color/secondaryColor</item>
 
     </style>
 
-    <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowNoTitle">true</item>
+    <style name="AppTheme.NoTitle" parent="AppTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
 </resources>

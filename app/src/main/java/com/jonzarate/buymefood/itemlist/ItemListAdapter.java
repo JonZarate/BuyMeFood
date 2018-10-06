@@ -2,14 +2,12 @@ package com.jonzarate.buymefood.itemlist;
 
 import android.content.res.Resources;
 import android.graphics.Paint;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jonzarate.buymefood.R;
@@ -28,15 +26,23 @@ import butterknife.ButterKnife;
 
 public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final int TYPE_HEADER = 0;
-    private final int TYPE_ITEM = 1;
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
+
+    public interface OnItemSelectionChange {
+        void onItemChecked(Item item);
+        void onItemUnchecked(Item item);
+    }
 
     private Resources mResources;
+    private OnItemSelectionChange mListener;
+
     private Group mGroup;
     private List<Object> mList;
 
-    public ItemListAdapter (Resources resources) {
+    public ItemListAdapter (Resources resources, OnItemSelectionChange listener) {
         mResources = resources;
+        mListener = listener;
     }
 
     public void setGroup(Group group) {
@@ -45,8 +51,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         for (String nick : mGroup.getNicks().keySet()){
             if (mGroup.getItems().containsKey(nick)) {
-                mList.add(mGroup.getNicks().get(nick));
-                mList.addAll(mGroup.getItems().get(nick));
+                mList.add(mGroup.getNicks().get(nick)); // User name as header
+                mList.addAll(mGroup.getItems().get(nick)); // Item list
             }
         }
 
@@ -120,12 +126,18 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setChecked(isChecked);
                 setCheckBox(holder.completed, holder.product, isChecked);
+                if (mListener != null) {
+                    if (isChecked) {
+                      mListener.onItemChecked(item);
+                    } else {
+                        mListener.onItemUnchecked(item);
+                    }
+                }
             }
         });
     }
 
     private void setProductHolderParams(TextView view, int param) {
-
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.height = param;
         view.setLayoutParams(params);

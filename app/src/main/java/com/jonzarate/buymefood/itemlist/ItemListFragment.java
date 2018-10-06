@@ -4,6 +4,7 @@ package com.jonzarate.buymefood.itemlist;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,21 +17,26 @@ import android.view.ViewGroup;
 
 import com.jonzarate.buymefood.R;
 import com.jonzarate.buymefood.data.model.Group;
+import com.jonzarate.buymefood.data.model.Item;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ItemListFragment extends Fragment implements ItemListContract.View,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, ItemListAdapter.OnItemSelectionChange {
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeLayout;
 
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
+
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
 
     private ItemListContract.Presenter mPresenter;
     private ItemListAdapter mAdapter;
@@ -50,7 +56,7 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
 
         setRetainInstance(true);
 
-        mAdapter = new ItemListAdapter(getContext().getResources());
+        mAdapter = new ItemListAdapter(getContext().getResources(), this);
     }
 
     @Override
@@ -104,6 +110,16 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
     }
 
     @Override
+    public void setCheckFabIcon() {
+        mFab.setImageResource(R.drawable.ic_check);
+    }
+
+    @Override
+    public void setAddFabIcon() {
+        mFab.setImageResource(R.drawable.ic_add);
+    }
+
+    @Override
     public void showRefreshing() {
         mSwipeLayout.setRefreshing(true);
     }
@@ -116,5 +132,20 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
     @Override
     public void onRefresh() {
         mPresenter.onRefreshed();
+    }
+
+    @OnClick(R.id.fab)
+    public void onClick(View v) {
+        mPresenter.onFabClicked();
+    }
+
+    @Override
+    public void onItemChecked(Item item) {
+        mPresenter.onItemChecked(item);
+    }
+
+    @Override
+    public void onItemUnchecked(Item item) {
+        mPresenter.onItemUnchecked(item);
     }
 }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +33,9 @@ import butterknife.OnClick;
  */
 public class LoginFragment extends Fragment implements LoginContract.View {
 
-    private LoginContract.Presenter mPresenter;
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     @BindView(R.id.login_layout)
     ConstraintLayout mLayout;
@@ -47,6 +51,8 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
     @BindView(R.id.login_button)
     Button mButton;
+
+    private LoginContract.Presenter mPresenter;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -69,6 +75,9 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
         View root = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, root);
+
+        ActivityUtils.initToolbar((AppCompatActivity) this.getActivity(), R.id.toolbar, true);
+
         return root;
     }
 
@@ -119,7 +128,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     }
 
     private void setLoadingVisibilityAnimation(int visibility){
-        AnimationUtils.setViewVisibility(mLayout, R.id.login_progressbar, visibility);
+        AnimationUtils.setViewVisibility(mLayout, R.id.login_progressbar_layout, visibility);
     }
 
     @Override

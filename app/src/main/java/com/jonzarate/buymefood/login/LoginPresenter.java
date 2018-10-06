@@ -19,7 +19,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.
 
     @Override
     public void start() {
-        mView.hideLoading();
+        //mView.hideLoading();
     }
 
     @Override
