@@ -15,6 +15,8 @@ public class Injector {
     private static ItemsSource mItemsSource;
     private static UserSource mUserSource;
 
+    private static BuyMeFoodViewModelProvider mProvider;
+
     public static ItemsSource getItemSource() {
         if (mItemsSource == null) {
             mItemsSource = new ItemsRepository(getFirebaseFirestore());
@@ -35,4 +37,10 @@ public class Injector {
         return FirebaseFirestore.getInstance();
     }
 
+    public static BuyMeFoodViewModelProvider getViewModerlProvider() {
+        if (mProvider == null) {
+            mProvider = new BuyMeFoodViewModelProvider(getUserSource());
+        }
+        return mProvider;
+    }
 }

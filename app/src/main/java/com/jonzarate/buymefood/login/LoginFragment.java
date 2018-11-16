@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.jonzarate.buymefood.BuyMeFood;
 import com.jonzarate.buymefood.BuyMeFoodViewModelProvider;
 import com.jonzarate.buymefood.Event;
+import com.jonzarate.buymefood.Injector;
 import com.jonzarate.buymefood.R;
 import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.itemlist.ItemListActivity;
@@ -84,14 +85,16 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        BuyMeFood app = (BuyMeFood) getContext().getApplicationContext();
-        BuyMeFoodViewModelProvider provider = app.getProvider();
-
-        mViewModel = ViewModelProviders.of(this, provider).get(LoginViewModel.class);
+        initViewModel();
 
         initLogin();
 
         initNavigation();
+    }
+
+    private void initViewModel() {
+        BuyMeFoodViewModelProvider provider = Injector.getViewModerlProvider();
+        mViewModel = ViewModelProviders.of(this, provider).get(LoginViewModel.class);
     }
 
     private void initLogin() {
