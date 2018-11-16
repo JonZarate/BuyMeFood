@@ -1,11 +1,9 @@
 package com.jonzarate.buymefood.utils;
 
-import android.support.annotation.IdRes;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.transition.TransitionManager;
-
-import com.jonzarate.buymefood.R;
+import androidx.annotation.IdRes;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.transition.TransitionManager;
 
 /**
  * Created by JonZarate on 13/03/2018.

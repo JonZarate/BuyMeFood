@@ -1,9 +1,9 @@
 package com.jonzarate.buymefood.data.model;
 
-import android.support.annotation.NonNull;
-
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by JonZarate on 15/03/2018.

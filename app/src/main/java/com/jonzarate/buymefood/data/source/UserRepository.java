@@ -8,8 +8,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.utils.FirestoreUtils;
 
-import java.util.concurrent.ExecutionException;
-
 /**
  * Created by JonZarate on 11/03/2018.
  */

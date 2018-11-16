@@ -3,11 +3,6 @@ package com.jonzarate.buymefood.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +11,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jonzarate.buymefood.BuyMeFood;
+import com.jonzarate.buymefood.BuyMeFoodViewModelProvider;
+import com.jonzarate.buymefood.Event;
 import com.jonzarate.buymefood.R;
 import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.itemlist.ItemListActivity;
 import com.jonzarate.buymefood.utils.ActivityUtils;
 import com.jonzarate.buymefood.utils.AnimationUtils;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,7 +36,7 @@ import butterknife.OnClick;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment implements LoginContract.View {
+public class LoginFragment extends Fragment {
 
 
     @BindView(R.id.toolbar)
@@ -52,7 +57,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @BindView(R.id.login_button)
     Button mButton;
 
-    private LoginContract.Presenter mPresenter;
+    private LoginViewModel mViewModel;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -61,12 +66,6 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
     }
 
     @Override
@@ -84,23 +83,51 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPresenter.start();
+
+        BuyMeFood app = (BuyMeFood) getContext().getApplicationContext();
+        BuyMeFoodViewModelProvider provider = app.getProvider();
+
+        mViewModel = ViewModelProviders.of(this, provider).get(LoginViewModel.class);
+
+        initLogin();
+
+        initNavigation();
     }
 
-    @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
-        mPresenter = presenter;
+    private void initLogin() {
+        mViewModel.loginEvent.observe(this, new Observer<Event<LoginEvent>>() {
+            @Override
+            public void onChanged(Event<LoginEvent> loginEventEvent) {
+                switch (loginEventEvent.peekContent()) {
+                    case LOGIN_SUCCESS:
+                        startItemListActivity(mViewModel.getGroup());
+                        break;
+
+                    case LOGIN_FAILED:
+                        erasePassword();
+                        hideLoading();
+                        showWrongCredentialsError();
+                        enableLoginButton();
+                        break;
+                }
+            }
+        });
     }
 
+    private void initNavigation() {
+
+    }
 
     @OnClick(R.id.login_button)
     public void onClick(View view){
-        // No need to check id
-        mPresenter.onLoginClicked(mNick.getText().toString(), mPass.getText().toString());
+        mViewModel.login(mNick.getText().toString(), mPass.getText().toString());
+        disableLoginButton();
+        showLoading();
+        hideKeyboard();
     }
 
-    @Override
-    public void openItemList(Group group) {
+
+    public void startItemListActivity(Group group) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ItemListActivity.EXTRA_GROUP, group);
 
@@ -112,17 +139,14 @@ public class LoginFragment extends Fragment implements LoginContract.View {
         getActivity().finish();
     }
 
-    @Override
     public void erasePassword() {
         mPass.setText("");
     }
 
-    @Override
     public void showLoading() {
         setLoadingVisibilityAnimation(View.VISIBLE);
     }
 
-    @Override
     public void hideLoading() {
         setLoadingVisibilityAnimation(View.GONE);
     }
@@ -131,42 +155,34 @@ public class LoginFragment extends Fragment implements LoginContract.View {
         AnimationUtils.setViewVisibility(mLayout, R.id.login_progressbar_layout, visibility);
     }
 
-    @Override
     public void hideKeyboard() {
         ActivityUtils.hideKeyboard(getContext(), getActivity().getCurrentFocus());
     }
 
-    @Override
     public void disableLoginButton() {
         mButton.setEnabled(false);
     }
 
-    @Override
     public void enableLoginButton() {
         mButton.setEnabled(true);
     }
 
-    @Override
     public void showWrongCredentialsError() {
         Toast.makeText(getContext(), "Wrong credentials", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void showGroupDialog() {
 
     }
 
-    @Override
     public void dismissGroupDialog() {
 
     }
 
-    @Override
     public void enableJoinButton() {
 
     }
 
-    @Override
     public void disableJoinButton() {
 
     }
