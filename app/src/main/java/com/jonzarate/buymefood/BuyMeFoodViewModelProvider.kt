@@ -15,5 +15,4 @@ class BuyMeFoodViewModelProvider(private val source : UserSource) : ViewModelPro
         throw IllegalArgumentException("ViewModel not registered")
     }
 
-
 }

@@ -127,7 +127,7 @@ public class LoginFragment extends Fragment {
     }
 
 
-    public void startItemListActivity(Group group) {
+    private void startItemListActivity(Group group) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ItemListActivity.EXTRA_GROUP, group);
 
@@ -139,15 +139,15 @@ public class LoginFragment extends Fragment {
         getActivity().finish();
     }
 
-    public void erasePassword() {
+    private void erasePassword() {
         mPass.setText("");
     }
 
-    public void showLoading() {
+    private void showLoading() {
         setLoadingVisibilityAnimation(View.VISIBLE);
     }
 
-    public void hideLoading() {
+    private void hideLoading() {
         setLoadingVisibilityAnimation(View.GONE);
     }
 
@@ -155,35 +155,19 @@ public class LoginFragment extends Fragment {
         AnimationUtils.setViewVisibility(mLayout, R.id.login_progressbar_layout, visibility);
     }
 
-    public void hideKeyboard() {
+    private void hideKeyboard() {
         ActivityUtils.hideKeyboard(getContext(), getActivity().getCurrentFocus());
     }
 
-    public void disableLoginButton() {
+    private void disableLoginButton() {
         mButton.setEnabled(false);
     }
 
-    public void enableLoginButton() {
+    private void enableLoginButton() {
         mButton.setEnabled(true);
     }
 
-    public void showWrongCredentialsError() {
+    private void showWrongCredentialsError() {
         Toast.makeText(getContext(), "Wrong credentials", Toast.LENGTH_SHORT).show();
-    }
-
-    public void showGroupDialog() {
-
-    }
-
-    public void dismissGroupDialog() {
-
-    }
-
-    public void enableJoinButton() {
-
-    }
-
-    public void disableJoinButton() {
-
     }
 }

@@ -8,7 +8,6 @@ import com.jonzarate.buymefood.data.source.UserSource
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 
 
-
 class BuyMeFood : Application() {
 
     lateinit var userSource : UserSource
@@ -22,20 +21,23 @@ class BuyMeFood : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        FirebaseApp.initializeApp(this)
-        // Required to handle timestamps due to Firestore change
-        val settings = FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build()
-        firestore.firestoreSettings = settings
-
-        firestore = FirebaseFirestore.getInstance()
+        setupFirebase()
 
         userSource = UserRepository(firestore)
 
         provider = BuyMeFoodViewModelProvider(userSource)
     }
 
+    fun setupFirebase() {
 
+        FirebaseApp.initializeApp(this)
 
+        /* Due to forthcoming changes in Firebase, we need to setup how we handle dates */
+
+        firestore = FirebaseFirestore.getInstance()
+        val settings = FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build()
+        firestore.firestoreSettings = settings
+    }
 }
