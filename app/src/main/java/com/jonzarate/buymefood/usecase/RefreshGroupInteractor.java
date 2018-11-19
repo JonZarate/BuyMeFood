@@ -8,7 +8,7 @@ import com.jonzarate.buymefood.data.repo.UserSource;
  * Created by JonZarate on 13/03/2018.
  */
 
-public class GetGroupInteractor extends BaseInteractor {
+public class RefreshGroupInteractor extends BaseInteractor {
 
     public interface Callback {
         void onGetGroupSuccess(Group group);
@@ -17,16 +17,18 @@ public class GetGroupInteractor extends BaseInteractor {
 
     private Callback mCallback;
     private UserSource mSource;
+    private String mGroupId;
     private Group mGroup;
 
-    public GetGroupInteractor(Callback callback, UserSource userSource) {
+    public RefreshGroupInteractor(Callback callback, UserSource userSource, String groupId) {
         mCallback = callback;
         mSource = userSource;
+        mGroupId = groupId;
     }
 
     @Override
     protected void executeWorkerThread() {
-        mGroup = mSource.refreshGroup(mSource.getCacheGroup().getId());
+        mGroup = mSource.refreshGroup(mGroupId);
     }
 
     @Override

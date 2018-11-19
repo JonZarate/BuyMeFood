@@ -1,6 +1,5 @@
 package com.jonzarate.buymefood.itemlist;
 
-import com.jonzarate.buymefood.Injector;
 import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.data.model.Item;
 import com.jonzarate.buymefood.usecase.GetGroupInteractor;
@@ -40,7 +39,7 @@ public class ItemListPresenter implements ItemListContract.Presenter, GetGroupIn
 
     @Override
     public void onRefreshed() {
-        new GetGroupInteractor(this, Injector.getUserSource(), mGroup.getId()).execute();
+
     }
 
     @Override

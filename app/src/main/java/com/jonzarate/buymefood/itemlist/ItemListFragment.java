@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jonzarate.buymefood.BuyMeFoodViewModelProvider;
+import com.jonzarate.buymefood.Injector;
 import com.jonzarate.buymefood.R;
 import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.data.model.Item;
@@ -16,6 +18,8 @@ import com.jonzarate.buymefood.data.model.Item;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -26,8 +30,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ItemListFragment extends Fragment implements ItemListContract.View,
-        SwipeRefreshLayout.OnRefreshListener, ItemListAdapter.OnItemSelectionChange {
+public class ItemListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemListAdapter.OnItemSelectionChange {
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeLayout;
@@ -38,7 +41,7 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
     @BindView(R.id.fab)
     FloatingActionButton mFab;
 
-    private ItemListContract.Presenter mPresenter;
+    private ItemListViewModel mViewModel;
     private ItemListAdapter mAdapter;
 
     public ItemListFragment() {
@@ -50,14 +53,6 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setRetainInstance(true);
-
-        mAdapter = new ItemListAdapter(getContext().getResources(), this);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,7 +62,29 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
 
         ButterKnife.bind(this, root);
 
+        return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        initViewModel();
+
+        initComponents();
+    }
+
+    private void initViewModel () {
+        BuyMeFoodViewModelProvider provider = Injector.getViewModerlProvider();
+        mViewModel = ViewModelProviders.of(this, provider).get(ItemListViewModel.class);
+    }
+
+    private void initComponents() {
+        mAdapter = new ItemListAdapter(getContext().getResources(), this);
+
+        mRecycler.setAdapter(mAdapter);
         mRecycler.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        // Add padding at the bottom
         mRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -80,72 +97,48 @@ public class ItemListFragment extends Fragment implements ItemListContract.View,
                 }
             }
         });
-        mRecycler.setAdapter(mAdapter);
+
 
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.secondaryColor));
-        return root;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        mPresenter.start();
-    }
-
-    @Override
-    public void setPresenter(ItemListContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
-    @Override
     public void setGroup(Group group) {
         mAdapter.setGroup(group);
-    }
-
-    @Override
-    public void notifyGroupItemsSet() {
         mAdapter.notifyDataSetChanged();
     }
 
-    @Override
     public void setCheckFabIcon() {
         mFab.setImageResource(R.drawable.ic_check);
     }
 
-    @Override
     public void setAddFabIcon() {
         mFab.setImageResource(R.drawable.ic_add);
     }
 
-    @Override
     public void showRefreshing() {
         mSwipeLayout.setRefreshing(true);
     }
 
-    @Override
     public void hideRefreshing() {
         mSwipeLayout.setRefreshing(false);
     }
 
     @Override
     public void onRefresh() {
-        mPresenter.onRefreshed();
+        mViewModel.refresh();
     }
 
     @OnClick(R.id.fab)
     public void onClick(View v) {
-        mPresenter.onFabClicked();
+        mViewModel.create();
     }
 
     @Override
     public void onItemChecked(Item item) {
-        mPresenter.onItemChecked(item);
     }
 
     @Override
     public void onItemUnchecked(Item item) {
-        mPresenter.onItemUnchecked(item);
     }
 }

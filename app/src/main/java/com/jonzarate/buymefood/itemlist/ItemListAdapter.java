@@ -52,7 +52,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         for (String nick : mGroup.getNicks().keySet()){
             if (mGroup.getItems().containsKey(nick)) {
                 mList.add(mGroup.getNicks().get(nick)); // User name as header
-                mList.addAll(mGroup.getItems().get(nick)); // Item list
+                mList.addAll(mGroup.getItems().get(nick)); // Item group
             }
         }
 

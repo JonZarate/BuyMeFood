@@ -1,10 +1,12 @@
 package com.jonzarate.buymefood;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.jonzarate.buymefood.data.source.ItemsRepository;
-import com.jonzarate.buymefood.data.source.ItemsSource;
-import com.jonzarate.buymefood.data.source.UserRepository;
-import com.jonzarate.buymefood.data.source.UserSource;
+import com.jonzarate.buymefood.data.repo.ItemsRepository;
+import com.jonzarate.buymefood.data.repo.ItemsSource;
+import com.jonzarate.buymefood.data.repo.UserRepository;
+import com.jonzarate.buymefood.data.repo.UserSource;
+import com.jonzarate.buymefood.data.source.cache.Cache;
+import com.jonzarate.buymefood.data.source.cache.CacheSource;
 
 /**
  * Created by JonZarate on 26/02/2018.
@@ -12,10 +14,20 @@ import com.jonzarate.buymefood.data.source.UserSource;
 
 public class Injector {
 
+    private static CacheSource mCacheSource;
     private static ItemsSource mItemsSource;
     private static UserSource mUserSource;
 
     private static BuyMeFoodViewModelProvider mProvider;
+
+
+    public static CacheSource getCacheSource() {
+        if (mCacheSource == null) {
+            mCacheSource = new Cache();
+        }
+
+        return mCacheSource;
+    }
 
     public static ItemsSource getItemSource() {
         if (mItemsSource == null) {
@@ -27,7 +39,7 @@ public class Injector {
 
     public static UserSource getUserSource() {
         if (mUserSource == null) {
-            mUserSource = new UserRepository(getFirebaseFirestore());
+            mUserSource = new UserRepository(getCacheSource(), getFirebaseFirestore());
         }
 
         return mUserSource;

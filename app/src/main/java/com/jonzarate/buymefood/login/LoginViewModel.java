@@ -2,7 +2,7 @@ package com.jonzarate.buymefood.login;
 
 import com.jonzarate.buymefood.Event;
 import com.jonzarate.buymefood.data.model.Group;
-import com.jonzarate.buymefood.data.source.UserSource;
+import com.jonzarate.buymefood.data.repo.UserSource;
 import com.jonzarate.buymefood.usecase.LoginInteractor;
 
 import androidx.lifecycle.MutableLiveData;

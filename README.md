@@ -3,14 +3,15 @@ _(Work in progress - check development branch)_
 # BuyMeFood 
 
 <p align="center">
-<img src="/images/icon.png" width="128px">
+<img src="./images/icon.png" width="128px">
 </p>
+
 
 This App is meant to be used amongst flatmates or couples living together. 
 
 The main purpose is to have a shared shopping list, so that they can buy stuff their partners need. 
 
-<img src="/images/screenshots/2018-03-27/login.png" width="256"> <img src="/images/screenshots/2018-03-27/itemlist.png" width="256">
+<img src="./images/screenshots/2018-03-27/login.png" width="256"> <img src="./images/screenshots/2018-03-27/itemlist.png" width="256">
 
 
 

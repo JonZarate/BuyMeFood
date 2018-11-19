@@ -16,8 +16,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         LoginFragment loginFragment = LoginFragment.newInstance();
-        FragmentManager fragmentManager = getSupportFragmentManager();
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
         ActivityUtils.addFragmentToActivity(fragmentManager, loginFragment, R.id.content_frame);
     }
 }

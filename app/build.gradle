@@ -33,7 +33,8 @@ dependencies {
     implementation "com.jakewharton:butterknife:$butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife"
 
-    implementation "com.google.firebase:firebase-firestore:$firebase"
+    implementation "com.google.firebase:firebase-core:$firebase_core"
+    implementation "com.google.firebase:firebase-firestore:$firebase_firestore"
 
     implementation "androidx.legacy:legacy-support-v4:$google_support"
     implementation "androidx.appcompat:appcompat:$google_support"

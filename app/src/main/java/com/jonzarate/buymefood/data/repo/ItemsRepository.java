@@ -1,4 +1,4 @@
-package com.jonzarate.buymefood.data.source;
+package com.jonzarate.buymefood.data.repo;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 

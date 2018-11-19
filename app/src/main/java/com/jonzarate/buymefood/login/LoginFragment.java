@@ -11,12 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jonzarate.buymefood.BuyMeFood;
 import com.jonzarate.buymefood.BuyMeFoodViewModelProvider;
 import com.jonzarate.buymefood.Event;
 import com.jonzarate.buymefood.Injector;
 import com.jonzarate.buymefood.R;
-import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.itemlist.ItemListActivity;
 import com.jonzarate.buymefood.utils.ActivityUtils;
 import com.jonzarate.buymefood.utils.AnimationUtils;
@@ -103,7 +101,7 @@ public class LoginFragment extends Fragment {
             public void onChanged(Event<LoginEvent> loginEventEvent) {
                 switch (loginEventEvent.peekContent()) {
                     case LOGIN_SUCCESS:
-                        startItemListActivity(mViewModel.getGroup());
+                        startItemListActivity();
                         break;
 
                     case LOGIN_FAILED:
@@ -130,13 +128,8 @@ public class LoginFragment extends Fragment {
     }
 
 
-    private void startItemListActivity(Group group) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(ItemListActivity.EXTRA_GROUP, group);
-
+    private void startItemListActivity() {
         Intent intent = new Intent(getContext(), ItemListActivity.class);
-        intent.putExtras(bundle);
-        intent.putExtra(ItemListActivity.EXTRA_GROUP_ID, group.getId());
         startActivity(intent);
 
         getActivity().finish();
