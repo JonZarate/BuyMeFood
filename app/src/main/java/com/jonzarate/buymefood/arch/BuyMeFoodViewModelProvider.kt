@@ -1,4 +1,4 @@
-package com.jonzarate.buymefood
+package com.jonzarate.buymefood.arch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

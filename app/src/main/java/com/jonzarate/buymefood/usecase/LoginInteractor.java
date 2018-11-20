@@ -1,6 +1,6 @@
 package com.jonzarate.buymefood.usecase;
 
-import com.jonzarate.buymefood.BaseInteractor;
+import com.jonzarate.buymefood.arch.BaseInteractor;
 import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.data.repo.UserSource;
 

@@ -1,4 +1,4 @@
-package com.jonzarate.buymefood
+package com.jonzarate.buymefood.arch
 
 open class Event<out T>(private val content: T) {
 

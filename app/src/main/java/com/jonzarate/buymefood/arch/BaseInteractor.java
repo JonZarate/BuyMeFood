@@ -1,4 +1,4 @@
-package com.jonzarate.buymefood;
+package com.jonzarate.buymefood.arch;
 
 import android.os.AsyncTask;
 

@@ -1,6 +1,6 @@
 package com.jonzarate.buymefood.usecase;
 
-import com.jonzarate.buymefood.BaseInteractor;
+import com.jonzarate.buymefood.arch.BaseInteractor;
 
 /**
  * Created by JonZarate on 14/03/2018.

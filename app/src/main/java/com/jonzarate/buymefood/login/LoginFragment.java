@@ -11,9 +11,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jonzarate.buymefood.BuyMeFoodViewModelProvider;
-import com.jonzarate.buymefood.Event;
-import com.jonzarate.buymefood.Injector;
+import com.jonzarate.buymefood.arch.BuyMeFoodViewModelProvider;
+import com.jonzarate.buymefood.arch.Event;
+import com.jonzarate.buymefood.arch.Injector;
 import com.jonzarate.buymefood.R;
 import com.jonzarate.buymefood.itemlist.ItemListActivity;
 import com.jonzarate.buymefood.utils.ActivityUtils;

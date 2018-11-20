@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.jonzarate.buymefood.BuyMeFoodViewModelProvider;
-import com.jonzarate.buymefood.Injector;
+import com.jonzarate.buymefood.arch.BuyMeFoodViewModelProvider;
+import com.jonzarate.buymefood.arch.Injector;
 import com.jonzarate.buymefood.R;
 import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.data.model.Item;
@@ -18,7 +18,7 @@ import com.jonzarate.buymefood.data.model.Item;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -72,6 +72,8 @@ public class ItemListFragment extends Fragment implements SwipeRefreshLayout.OnR
         initViewModel();
 
         initComponents();
+
+        initObservation();
     }
 
     private void initViewModel () {
@@ -101,6 +103,15 @@ public class ItemListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.secondaryColor));
+    }
+
+    private void initObservation() {
+        mViewModel.getGroup().observe(this, new Observer<Group>() {
+            @Override
+            public void onChanged(Group group) {
+                setGroup(group);
+            }
+        });
     }
 
     public void setGroup(Group group) {
