@@ -1,4 +1,4 @@
-package com.jonzarate.buymefood.data.source;
+package com.jonzarate.buymefood.data.repo;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -6,9 +6,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jonzarate.buymefood.data.model.Group;
+import com.jonzarate.buymefood.data.source.cache.CacheSource;
 import com.jonzarate.buymefood.utils.FirestoreUtils;
-
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by JonZarate on 11/03/2018.
@@ -16,10 +15,11 @@ import java.util.concurrent.ExecutionException;
 
 public class UserRepository implements UserSource {
 
+    private CacheSource mSource;
     private FirebaseFirestore mFirestore;
 
-    public UserRepository(FirebaseFirestore firestore)
-    {
+    public UserRepository(CacheSource source, FirebaseFirestore firestore) {
+        mSource = source;
         mFirestore = firestore;
     }
 
@@ -38,14 +38,16 @@ public class UserRepository implements UserSource {
         } catch (Exception ignore) { }
 
         if (query != null) {
-            return FirestoreUtils.toObject(query, Group.class);
+            Group group = FirestoreUtils.toObject(query, Group.class);
+            mSource.setGroup(group);
+            return group;
         }
 
         return null;
     }
 
     @Override
-    public Group getGroup(String groupId) {
+    public Group refreshGroup(String groupId) {
         Task<DocumentSnapshot> task = mFirestore.collection(Group.COLLECTION)
                 .document(groupId)
                 .get();
@@ -56,9 +58,22 @@ public class UserRepository implements UserSource {
         } catch (Exception ignore) {}
 
         if (document != null){
-            return document.toObject(Group.class).withId(document.getId());
+            Group group = document.toObject(Group.class).withId(document.getId());
+            mSource.setGroup(group);
+            return group;
         }
 
         return null;
+    }
+
+    @Override
+    public Group getCacheGroup() {
+        return mSource.getGroup();
+    }
+
+
+    @Override
+    public void saveCacheGroup(Group group) {
+        mSource.setGroup(group);
     }
 }

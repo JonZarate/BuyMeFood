@@ -11,8 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
-import static androidx.core.util.Preconditions.checkNotNull;
+import android.os.IBinder;
 
 /**
  * Created by JonZarate on 26/02/2018.
@@ -25,7 +24,9 @@ public class ActivityUtils {
         initToolbar(activity, toolbarId, false);
     }
 
-    public static void initToolbar(AppCompatActivity activity, @IdRes int toolbarId, boolean showBackAsUpEnabled){
+    public static void initToolbar(
+            AppCompatActivity activity, @IdRes int toolbarId, boolean showBackAsUpEnabled){
+
         Toolbar toolbar = activity.findViewById(toolbarId);
         if (toolbar != null) {
             activity.setSupportActionBar(toolbar);
@@ -37,7 +38,8 @@ public class ActivityUtils {
     }
 
     public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,
-                                              @NonNull Fragment fragment, int frameId) {
+                                              @NonNull Fragment fragment,
+                                              int frameId) {
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(frameId, fragment);
@@ -45,8 +47,11 @@ public class ActivityUtils {
     }
 
     public static void hideKeyboard(Context context, View view){
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            IBinder token = view.getWindowToken();
+            imm.hideSoftInputFromWindow(token, 0);
+        }
     }
 
 

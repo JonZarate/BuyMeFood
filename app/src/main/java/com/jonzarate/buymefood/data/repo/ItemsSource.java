@@ -1,4 +1,4 @@
-package com.jonzarate.buymefood.data.source;
+package com.jonzarate.buymefood.data.repo;
 
 /**
  * Created by JonZarate on 26/02/2018.

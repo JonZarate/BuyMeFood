@@ -17,6 +17,7 @@ import com.jonzarate.buymefood.data.model.Item;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -52,7 +53,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         for (String nick : mGroup.getNicks().keySet()){
             if (mGroup.getItems().containsKey(nick)) {
                 mList.add(mGroup.getNicks().get(nick)); // User name as header
-                mList.addAll(mGroup.getItems().get(nick)); // Item list
+                mList.addAll(mGroup.getItems().get(nick)); // Item group
             }
         }
 

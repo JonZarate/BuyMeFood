@@ -1,4 +1,4 @@
-package com.jonzarate.buymefood.data.source;
+package com.jonzarate.buymefood.data.repo;
 
 import com.jonzarate.buymefood.data.model.Group;
 
@@ -12,6 +12,11 @@ public interface UserSource {
 
     Group login(String nick, String password);
 
-    Group getGroup(String groupId);
+
+    Group refreshGroup(String groupId);
+
+    Group getCacheGroup();
+
+    void saveCacheGroup(Group group);
 
 }

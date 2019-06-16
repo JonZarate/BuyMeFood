@@ -16,12 +16,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jonzarate.buymefood.arch.BuyMeFoodViewModelProvider;
+import com.jonzarate.buymefood.arch.Event;
+import com.jonzarate.buymefood.arch.Injector;
 import com.jonzarate.buymefood.R;
-import com.jonzarate.buymefood.data.model.Group;
 import com.jonzarate.buymefood.itemlist.ItemListActivity;
 import com.jonzarate.buymefood.utils.ActivityUtils;
 import com.jonzarate.buymefood.utils.AnimationUtils;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,7 +40,7 @@ import butterknife.OnClick;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment implements LoginContract.View {
+public class LoginFragment extends Fragment {
 
 
     @BindView(R.id.toolbar)
@@ -52,7 +61,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @BindView(R.id.login_button)
     Button mButton;
 
-    private LoginContract.Presenter mPresenter;
+    private LoginViewModel mViewModel;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -61,12 +70,6 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
     }
 
     @Override
@@ -84,46 +87,68 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPresenter.start();
+
+        initViewModel();
+
+        initLogin();
+
+        initNavigation();
     }
 
-    @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
-        mPresenter = presenter;
+    private void initViewModel() {
+        BuyMeFoodViewModelProvider provider = Injector.getViewModerlProvider();
+        mViewModel = ViewModelProviders.of(this, provider).get(LoginViewModel.class);
     }
 
+    private void initLogin() {
+        mViewModel.loginEvent.observe(this, new Observer<Event<LoginEvent>>() {
+            @Override
+            public void onChanged(Event<LoginEvent> loginEventEvent) {
+                switch (loginEventEvent.peekContent()) {
+                    case LOGIN_SUCCESS:
+                        startItemListActivity();
+                        break;
+
+                    case LOGIN_FAILED:
+                        erasePassword();
+                        hideLoading();
+                        showWrongCredentialsError();
+                        enableLoginButton();
+                        break;
+                }
+            }
+        });
+    }
+
+    private void initNavigation() {
+
+    }
 
     @OnClick(R.id.login_button)
     public void onClick(View view){
-        // No need to check id
-        mPresenter.onLoginClicked(mNick.getText().toString(), mPass.getText().toString());
+        mViewModel.login(mNick.getText().toString(), mPass.getText().toString());
+        disableLoginButton();
+        showLoading();
+        hideKeyboard();
     }
 
-    @Override
-    public void openItemList(Group group) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(ItemListActivity.EXTRA_GROUP, group);
 
+    private void startItemListActivity() {
         Intent intent = new Intent(getContext(), ItemListActivity.class);
-        intent.putExtras(bundle);
-        intent.putExtra(ItemListActivity.EXTRA_GROUP_ID, group.getId());
         startActivity(intent);
 
         getActivity().finish();
     }
 
-    @Override
-    public void erasePassword() {
+    private void erasePassword() {
         mPass.setText("");
     }
 
-    @Override
-    public void showLoading() {
+    private void showLoading() {
         setLoadingVisibilityAnimation(View.VISIBLE);
     }
 
-    @Override
-    public void hideLoading() {
+    private void hideLoading() {
         setLoadingVisibilityAnimation(View.GONE);
     }
 
@@ -131,43 +156,19 @@ public class LoginFragment extends Fragment implements LoginContract.View {
         AnimationUtils.setViewVisibility(mLayout, R.id.login_progressbar_layout, visibility);
     }
 
-    @Override
-    public void hideKeyboard() {
+    private void hideKeyboard() {
         ActivityUtils.hideKeyboard(getContext(), getActivity().getCurrentFocus());
     }
 
-    @Override
-    public void disableLoginButton() {
+    private void disableLoginButton() {
         mButton.setEnabled(false);
     }
 
-    @Override
-    public void enableLoginButton() {
+    private void enableLoginButton() {
         mButton.setEnabled(true);
     }
 
-    @Override
-    public void showWrongCredentialsError() {
+    private void showWrongCredentialsError() {
         Toast.makeText(getContext(), "Wrong credentials", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showGroupDialog() {
-
-    }
-
-    @Override
-    public void dismissGroupDialog() {
-
-    }
-
-    @Override
-    public void enableJoinButton() {
-
-    }
-
-    @Override
-    public void disableJoinButton() {
-
     }
 }

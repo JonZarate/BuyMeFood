@@ -3,7 +3,6 @@ package com.jonzarate.buymefood.utils;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jonzarate.buymefood.data.model.BaseModel;
-import com.jonzarate.buymefood.data.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;
